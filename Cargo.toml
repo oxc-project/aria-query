@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members  = ["crates/*"]
+
+[workspace.package]
+authors      = ["Shinobu Hayashi <philispaxil@gmail.com>"]
+categories   = ["development-tools", "web-programming", "accessibility"]
+description  = "Rust alternative aria-query"
+edition      = "2021"
+keywords     = ["JavaScript", "TypeScript", "accessibility"]
+license      = "MIT"
+repository   = "https://github.com/oxc-project/aria-query"
+rust-version = "1.60"
+
+[workspace.dependency]
