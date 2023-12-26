@@ -5,6 +5,9 @@ version = 3
 [[package]]
 name = "aria_query"
 version = "0.1.0"
+dependencies = [
+ "dom",
+]
 
 [[package]]
 name = "console"
@@ -116,6 +119,13 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "tests"
+version = "0.1.0"
+dependencies = [
+ "aria_query",
 ]
 
 [[package]]
