@@ -168,3 +168,61 @@ pub mod dom {
         init_dom_elements_map().values().copied()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::dom::entries;
+    use insta::{assert_json_snapshot, Settings};
+
+    #[test]
+    fn snapshot_for_entries() {
+        let dom_entries = entries();
+
+        let mut settings = Settings::clone_current();
+        settings.set_sort_maps(true);
+        settings.bind(|| {
+            assert_json_snapshot!(dom_entries);
+        });
+    }
+
+    #[test]
+    fn test_for_each() {
+        let mut el_count = 0;
+        crate::dom::for_each(|_, _| el_count += 1);
+        assert_eq!(el_count, 129);
+        let mut reserved_count = 0;
+        crate::dom::for_each(|_, v| {
+            if v {
+                reserved_count += 1
+            }
+        });
+        assert_eq!(reserved_count, 16);
+        let mut elements_list = Vec::new();
+        crate::dom::for_each(|k, _| {
+            elements_list.push(k);
+        });
+        assert_eq!(elements_list, crate::dom::keys().collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_get() {
+        assert_eq!(crate::dom::get("a"), Some(false));
+        assert_eq!(crate::dom::get("html"), Some(true));
+        assert_eq!(crate::dom::get("unknown"), None);
+    }
+
+    #[test]
+    fn test_has() {
+        assert!(crate::dom::has("a"));
+        assert!(crate::dom::has("html"));
+        assert!(!crate::dom::has("unknown"));
+    }
+
+    #[test]
+    fn test_keys() {
+        let keys = crate::dom::keys().collect::<Vec<_>>();
+        for (_, key) in keys.iter().enumerate() {
+            assert!(crate::dom::entries().contains_key(key));
+        }
+    }
+}
