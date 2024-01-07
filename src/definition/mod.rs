@@ -177,3 +177,10 @@ pub enum ARIARole {
     ARIADPubRole(ARIADPubRole),
     ARIAGraphicsRole(ARIAGraphicsRole),
 }
+
+pub enum ARIARoleDefinitionKey {
+    ARIAAbstractRole(ARIAAbstractRole),
+    ARIARole(ARIARole),
+    ARIADPubRole(ARIADPubRole),
+    ARIAGraphicsRole(ARIAGraphicsRole),
+}
