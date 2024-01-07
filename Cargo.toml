@@ -1,8 +1,6 @@
-[workspace]
-resolver = "2"
-members  = ["crates/*"]
-
-[workspace.package]
+[package]
+name = "aria_query"
+version = "0.1.0"
 authors      = ["Shinobu Hayashi <philispaxil@gmail.com>"]
 categories   = ["development-tools", "web-programming", "accessibility"]
 description  = "Rust alternative aria-query"
@@ -12,4 +10,9 @@ license      = "MIT"
 repository   = "https://github.com/oxc-project/aria-query"
 rust-version = "1.60"
 
-[workspace.dependency]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[dev-dependencies]
+insta = { version = "1.34.0", features = ["json"] }

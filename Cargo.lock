@@ -6,7 +6,7 @@ version = 3
 name = "aria_query"
 version = "0.1.0"
 dependencies = [
- "dom",
+ "insta",
 ]
 
 [[package]]
@@ -19,13 +19,6 @@ dependencies = [
  "lazy_static",
  "libc",
  "windows-sys",
-]
-
-[[package]]
-name = "dom"
-version = "0.1.0"
-dependencies = [
- "insta",
 ]
 
 [[package]]
@@ -119,13 +112,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "tests"
-version = "0.1.0"
-dependencies = [
- "aria_query",
 ]
 
 [[package]]
