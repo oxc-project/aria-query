@@ -184,3 +184,9 @@ pub enum ARIARoleDefinitionKey {
     ARIADPubRole(ARIADPubRole),
     ARIAGraphicsRole(ARIAGraphicsRole),
 }
+
+pub enum ARIANameFromSources {
+    Author,
+    Contents,
+    Prohibited,
+}
