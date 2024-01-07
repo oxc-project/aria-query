@@ -13,3 +13,24 @@ pub enum ARIAAbstractRole {
     Window,
 }
 
+pub enum ARIAWidgetRole {
+    Button,
+    CheckBox,
+    GridCell,
+    Link,
+    MenuItem,
+    MenuItemCheckBox,
+    MenuItemRadio,
+    Option,
+    ProgressBar,
+    Radio,
+    ScrollBar,
+    SearchBox,
+    Slider,
+    SpinButton,
+    Switch,
+    Tab,
+    TabPanel,
+    TextBox,
+    TreeItem,
+}
