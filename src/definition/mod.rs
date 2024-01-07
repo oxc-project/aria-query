@@ -88,3 +88,14 @@ pub enum ARIADocumentStructureRole {
     ToolBar,
     ToolTip,
 }
+
+pub enum ARIALandmarkRole {
+    Banner,
+    Complementary,
+    ContentInfo,
+    Form,
+    Main,
+    Navigation,
+    Region,
+    Search,
+}
