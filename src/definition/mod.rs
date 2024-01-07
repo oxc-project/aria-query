@@ -356,3 +356,4 @@ pub struct ARIARoleDefinition {
 }
 
 pub type RoleDefinitionTuple = (ARIARoleDefinitionKey, ARIARoleDefinition);
+pub type RoleDefinitions = Vec<RoleDefinitionTuple>;
