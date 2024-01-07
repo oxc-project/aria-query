@@ -99,3 +99,11 @@ pub enum ARIALandmarkRole {
     Region,
     Search,
 }
+
+pub enum ARIALiveRegionRole {
+    Alert,
+    Log,
+    Marquee,
+    Status,
+    Timer,
+}
