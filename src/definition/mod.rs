@@ -34,3 +34,15 @@ pub enum ARIAWidgetRole {
     TextBox,
     TreeItem,
 }
+
+pub enum ARIACompositeWidgetRole {
+    ComboBox,
+    Grid,
+    ListBox,
+    Menu,
+    MenuBar,
+    RadioGroup,
+    TabList,
+    Tree,
+    TreeGrid,
+}
