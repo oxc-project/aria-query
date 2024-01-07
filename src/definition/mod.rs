@@ -309,13 +309,14 @@ pub struct ARIARoleRelationConceptConstraints {
     pub ancestor_table_element_has_grid_role: bool,
     pub ancestor_table_element_has_treegrid_role: bool,
     pub the_size_attribute_value_is_greater_than_1: bool,
-    pub the_multiple_attribute_is_not_set_and_the_size_attribute_does_not_have_a_value_greater_than_1: bool,
+    pub the_multiple_attribute_is_not_set_and_the_size_attribute_does_not_have_a_value_greater_than_1:
+        bool,
     pub the_list_attribute_is_not_set: bool,
 }
 
 /* The concept in a related domain that informs behavior mappings.
 ** Related domains include: HTML, "Device Independence Delivery Unit", XForms,
-** and ARIA to name a few. 
+** and ARIA to name a few.
 **/
 pub struct ARIARoleRelationConcept {
     pub name: String,
@@ -349,9 +350,9 @@ pub struct ARIARoleDefinition {
     /* aria-* properties and states required on this role. */
     pub required_props: Option<Vec<ARIAPropertyMap>>,
     /* An array or super class "stacks." Each stack contains a LIFO list of
-    ** strings correspond to a super class in the inheritance chain of this
-    ** role. Roles may have more than one inheritance chain, which is why
-    ** this property is an array of arrays and not a single array. */
+     ** strings correspond to a super class in the inheritance chain of this
+     ** role. Roles may have more than one inheritance chain, which is why
+     ** this property is an array of arrays and not a single array. */
     pub super_class: Option<Vec<Vec<ARIARoleDefinitionKey>>>,
 }
 
