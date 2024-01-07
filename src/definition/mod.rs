@@ -266,3 +266,13 @@ pub struct ARIAPropertyDefinition {
     pub values: Option<Vec<String>>,
     pub allow_undefined: Option<bool>,
 }
+
+pub enum ARIAPropertyCurrent {
+    Page,
+    Step,
+    Location,
+    Date,
+    Time,
+    True,
+    False,
+}
