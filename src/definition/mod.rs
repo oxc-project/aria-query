@@ -159,3 +159,9 @@ pub enum ARIADPubRole {
     DocTip,
     DocToc,
 }
+
+pub enum ARIAGraphicsRole {
+    GraphicsDocument,
+    GraphicsObject,
+    GraphicsSymbol,
+}
