@@ -165,3 +165,15 @@ pub enum ARIAGraphicsRole {
     GraphicsObject,
     GraphicsSymbol,
 }
+
+pub enum ARIARole {
+    ARIAWidgetRole(ARIAWidgetRole),
+    ARIACompositeWidgetRole(ARIACompositeWidgetRole),
+    ARIADocumentStructureRole(ARIADocumentStructureRole),
+    ARIALandmarkRole(ARIALandmarkRole),
+    ARIALiveRegionRole(ARIALiveRegionRole),
+    ARIAWindowRole(ARIAWindowRole),
+    ARIAUncategorizedRole(ARIAUncategorizedRole),
+    ARIADPubRole(ARIADPubRole),
+    ARIAGraphicsRole(ARIAGraphicsRole),
+}
