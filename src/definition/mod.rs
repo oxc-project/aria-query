@@ -276,3 +276,19 @@ pub enum ARIAPropertyCurrent {
     True,
     False,
 }
+
+// These constraints are drawn from the mapping between ARIA and HTML:
+// https://www.w3.org/TR/html-aria
+pub struct ARIARoleRelationConceptAttributeConstraints {
+    // The attribute does not exist on the node: <a>
+    pub undefined: bool,
+    // The attribute has a value: <a b="c">
+    pub set: bool,
+    pub gt1: bool,
+}
+
+pub struct ARIARoleRelationConceptAttribute {
+    pub name: String,
+    pub value: Option<String>,
+    pub constraints: Option<ARIARoleRelationConceptAttributeConstraints>,
+}
