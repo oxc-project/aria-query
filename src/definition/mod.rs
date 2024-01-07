@@ -107,3 +107,8 @@ pub enum ARIALiveRegionRole {
     Status,
     Timer,
 }
+
+pub enum ARIAWindowRole {
+    AlertDialog,
+    Dialog,
+}
