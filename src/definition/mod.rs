@@ -190,3 +190,15 @@ pub enum ARIANameFromSources {
     Contents,
     Prohibited,
 }
+
+pub enum ARIAState {
+    AriaBusy,
+    AriaChecked,
+    AriaDisabled,
+    AriaExpanded,
+    AriaGrabbed,
+    AriaHidden,
+    AriaInvalid,
+    AriaPressed,
+    AriaSelected,
+}
