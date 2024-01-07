@@ -354,3 +354,5 @@ pub struct ARIARoleDefinition {
     ** this property is an array of arrays and not a single array. */
     pub super_class: Option<Vec<Vec<ARIARoleDefinitionKey>>>,
 }
+
+pub type RoleDefinitionTuple = (ARIARoleDefinitionKey, ARIARoleDefinition);
