@@ -112,3 +112,7 @@ pub enum ARIAWindowRole {
     AlertDialog,
     Dialog,
 }
+
+pub enum ARIAUncategorizedRole {
+    Code,
+}
