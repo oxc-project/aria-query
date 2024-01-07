@@ -292,3 +292,33 @@ pub struct ARIARoleRelationConceptAttribute {
     pub value: Option<String>,
     pub constraints: Option<ARIARoleRelationConceptAttributeConstraints>,
 }
+
+// These constraints are drawn from the mapping between ARIA and HTML:
+// https://www.w3.org/TR/html-aria
+pub struct ARIARoleRelationConceptConstraints {
+    pub scoped_to_the_body_element: bool,
+    pub scoped_to_the_main_element: bool,
+    pub scoped_to_a_sectioning_root_element_other_than_body: bool,
+    pub scoped_to_a_sectioning_content_element: bool,
+    pub direct_descendant_of_document: bool,
+    pub direct_descendant_of_ol: bool,
+    pub direct_descendant_of_ul: bool,
+    pub direct_descendant_of_menu: bool,
+    pub direct_descendant_of_details_element_with_the_open_attribute_defined: bool,
+    pub ancestor_table_element_has_table_role: bool,
+    pub ancestor_table_element_has_grid_role: bool,
+    pub ancestor_table_element_has_treegrid_role: bool,
+    pub the_size_attribute_value_is_greater_than_1: bool,
+    pub the_multiple_attribute_is_not_set_and_the_size_attribute_does_not_have_a_value_greater_than_1: bool,
+    pub the_list_attribute_is_not_set: bool,
+}
+
+/* The concept in a related domain that informs behavior mappings.
+** Related domains include: HTML, "Device Independence Delivery Unit", XForms,
+** and ARIA to name a few. 
+**/
+pub struct ARIARoleRelationConcept {
+    pub name: String,
+    pub attributes: Option<Vec<ARIARoleRelationConceptAttribute>>,
+    pub constraints: Option<ARIARoleRelationConceptConstraints>,
+}
