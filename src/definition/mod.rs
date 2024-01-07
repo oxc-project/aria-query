@@ -338,16 +338,16 @@ pub struct ARIARoleDefinition {
     pub children_presentational: bool,
     pub name_from: Option<Vec<ARIANameFromSources>>,
     /* aria-* properties and states disallowed on this role. */
-    pub prohibited_props: Option<Vec<ARIAProperty>>,
+    pub prohibited_props: Option<Vec<ARIAPropertyMap>>,
     /* aria-* properties and states allowed on this role. */
-    pub props: Option<Vec<ARIAProperty>>,
+    pub props: Option<Vec<ARIAPropertyMap>>,
     /* The concepts in related domains that inform behavior mappings. */
     pub related_concepts: Option<Vec<ARIARoleRelation>>,
     pub require_context_role: Option<Vec<ARIARole>>,
     pub required_context_role: Option<Vec<ARIARole>>,
     pub required_owned_elements: Option<Vec<Vec<String>>>,
     /* aria-* properties and states required on this role. */
-    pub required_props: Option<Vec<ARIAProperty>>,
+    pub required_props: Option<Vec<ARIAPropertyMap>>,
     /* An array or super class "stacks." Each stack contains a LIFO list of
     ** strings correspond to a super class in the inheritance chain of this
     ** role. Roles may have more than one inheritance chain, which is why
@@ -357,3 +357,57 @@ pub struct ARIARoleDefinition {
 
 pub type RoleDefinitionTuple = (ARIARoleDefinitionKey, ARIARoleDefinition);
 pub type RoleDefinitions = Vec<RoleDefinitionTuple>;
+
+pub struct ARIAPropertyMap {
+    pub aria_activedescendant: Option<String>,
+    pub aria_atomic: Option<String>,
+    pub aria_autocomplete: Option<String>,
+    pub aria_braillelabel: Option<String>,
+    pub aria_brailleroledescription: Option<String>,
+    pub aria_busy: Option<String>,
+    pub aria_checked: Option<String>,
+    pub aria_colcount: Option<String>,
+    pub aria_colindex: Option<String>,
+    pub aria_colspan: Option<String>,
+    pub aria_controls: Option<String>,
+    pub aria_current: Option<ARIAPropertyCurrent>,
+    pub aria_describedby: Option<String>,
+    pub aria_description: Option<String>,
+    pub aria_details: Option<String>,
+    pub aria_disabled: Option<String>,
+    pub aria_dropeffect: Option<String>,
+    pub aria_errormessage: Option<String>,
+    pub aria_expanded: Option<String>,
+    pub aria_flowto: Option<String>,
+    pub aria_grabbed: Option<String>,
+    pub aria_haspopup: Option<String>,
+    pub aria_hidden: Option<String>,
+    pub aria_invalid: Option<String>,
+    pub aria_keyshortcuts: Option<String>,
+    pub aria_label: Option<String>,
+    pub aria_labelledby: Option<String>,
+    pub aria_level: Option<String>,
+    pub aria_live: Option<String>,
+    pub aria_modal: Option<String>,
+    pub aria_multiline: Option<String>,
+    pub aria_multiselectable: Option<String>,
+    pub aria_orientation: Option<String>,
+    pub aria_owns: Option<String>,
+    pub aria_placeholder: Option<String>,
+    pub aria_posinset: Option<String>,
+    pub aria_pressed: Option<String>,
+    pub aria_readonly: Option<String>,
+    pub aria_relevant: Option<String>,
+    pub aria_required: Option<String>,
+    pub aria_roledescription: Option<String>,
+    pub aria_rowcount: Option<String>,
+    pub aria_rowindex: Option<String>,
+    pub aria_rowspan: Option<String>,
+    pub aria_selected: Option<String>,
+    pub aria_setsize: Option<String>,
+    pub aria_sort: Option<String>,
+    pub aria_valuemax: Option<String>,
+    pub aria_valuemin: Option<String>,
+    pub aria_valuenow: Option<String>,
+    pub aria_valuetext: Option<String>,
+}
