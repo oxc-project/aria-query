@@ -327,3 +327,30 @@ pub struct ARIARoleRelation {
     pub module: Option<String>,
     pub concept: Option<ARIARoleRelationConcept>,
 }
+
+pub struct ARIARoleDefinition {
+    /* Abstract roles may not be used in HTML. */
+    pub is_abstract: bool,
+    pub accessible_name_required: bool,
+    /* The concepts in related domains that inform behavior mappings. */
+    pub base_concepts: Option<Vec<ARIARoleRelation>>,
+    /* Child presentational roles strip child nodes of roles and flatten the content to text. */
+    pub children_presentational: bool,
+    pub name_from: Option<Vec<ARIANameFromSources>>,
+    /* aria-* properties and states disallowed on this role. */
+    pub prohibited_props: Option<Vec<ARIAProperty>>,
+    /* aria-* properties and states allowed on this role. */
+    pub props: Option<Vec<ARIAProperty>>,
+    /* The concepts in related domains that inform behavior mappings. */
+    pub related_concepts: Option<Vec<ARIARoleRelation>>,
+    pub require_context_role: Option<Vec<ARIARole>>,
+    pub required_context_role: Option<Vec<ARIARole>>,
+    pub required_owned_elements: Option<Vec<Vec<String>>>,
+    /* aria-* properties and states required on this role. */
+    pub required_props: Option<Vec<ARIAProperty>>,
+    /* An array or super class "stacks." Each stack contains a LIFO list of
+    ** strings correspond to a super class in the inheritance chain of this
+    ** role. Roles may have more than one inheritance chain, which is why
+    ** this property is an array of arrays and not a single array. */
+    pub super_class: Option<Vec<Vec<ARIARoleDefinitionKey>>>,
+}
