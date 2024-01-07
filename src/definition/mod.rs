@@ -322,3 +322,8 @@ pub struct ARIARoleRelationConcept {
     pub attributes: Option<Vec<ARIARoleRelationConceptAttribute>>,
     pub constraints: Option<ARIARoleRelationConceptConstraints>,
 }
+
+pub struct ARIARoleRelation {
+    pub module: Option<String>,
+    pub concept: Option<ARIARoleRelationConcept>,
+}
