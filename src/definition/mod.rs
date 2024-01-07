@@ -248,3 +248,21 @@ pub enum ARIAProperty {
     AriaValuetext,
     ARIAState(ARIAState),
 }
+
+pub enum ARIAPropertyDefinitionType {
+    String,
+    Id,
+    IdList,
+    Integer,
+    Number,
+    Boolean,
+    Token,
+    TokenList,
+    Tristate,
+}
+
+pub struct ARIAPropertyDefinition {
+    pub type_: ARIAPropertyDefinitionType,
+    pub values: Option<Vec<String>>,
+    pub allow_undefined: Option<bool>,
+}
