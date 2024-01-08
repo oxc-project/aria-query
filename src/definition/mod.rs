@@ -1,3 +1,4 @@
+#[cfg(test)]
 use serde::{ser::SerializeStruct, Serialize};
 
 pub enum ARIAAbstractRole {
@@ -270,6 +271,7 @@ pub struct ARIAPropertyDefinition {
     pub allow_undefined: Option<bool>,
 }
 
+#[cfg(test)]
 impl Serialize for ARIAPropertyDefinition {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
