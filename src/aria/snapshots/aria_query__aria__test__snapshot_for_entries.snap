@@ -1,0 +1,270 @@
+---
+source: src/aria/mod.rs
+expression: aria_entries
+---
+{
+  "aria-activedescendant": {
+    "key": "aria-activedescendant",
+    "type": "id"
+  },
+  "aria-atomic": {
+    "key": "aria-atomic",
+    "type": "boolean"
+  },
+  "aria-autocomplete": {
+    "key": "aria-autocomplete",
+    "type": "token",
+    "values": [
+      "inline",
+      "list",
+      "both",
+      "none"
+    ]
+  },
+  "aria-braillelabel": {
+    "key": "aria-braillelabel",
+    "type": "string"
+  },
+  "aria-brailleroledescription": {
+    "key": "aria-brailleroledescription",
+    "type": "string"
+  },
+  "aria-busy": {
+    "key": "aria-busy",
+    "type": "boolean"
+  },
+  "aria-checked": {
+    "key": "aria-checked",
+    "type": "tristate"
+  },
+  "aria-colcount": {
+    "key": "aria-colcount",
+    "type": "integer"
+  },
+  "aria-colspan": {
+    "key": "aria-colspan",
+    "type": "integer"
+  },
+  "aria-controls": {
+    "key": "aria-controls",
+    "type": "idlist"
+  },
+  "aria-current": {
+    "key": "aria-current",
+    "type": "token",
+    "values": [
+      "page",
+      "step",
+      "location",
+      "date",
+      "time",
+      "true",
+      "false"
+    ]
+  },
+  "aria-describedby": {
+    "key": "aria-describedby",
+    "type": "idlist"
+  },
+  "aria-description": {
+    "key": "aria-description",
+    "type": "string"
+  },
+  "aria-details": {
+    "key": "aria-details",
+    "type": "id"
+  },
+  "aria-disabled": {
+    "key": "aria-disabled",
+    "type": "boolean"
+  },
+  "aria-dropeffect": {
+    "key": "aria-dropeffect",
+    "type": "tokenlist",
+    "values": [
+      "copy",
+      "execute",
+      "link",
+      "move",
+      "none",
+      "popup"
+    ]
+  },
+  "aria-errormessage": {
+    "key": "aria-errormessage",
+    "type": "id"
+  },
+  "aria-expanded": {
+    "key": "aria-expanded",
+    "type": "boolean",
+    "allow_undefined": true
+  },
+  "aria-flowto": {
+    "key": "aria-flowto",
+    "type": "idlist"
+  },
+  "aria-grabbed": {
+    "key": "aria-grabbed",
+    "type": "boolean",
+    "allow_undefined": true
+  },
+  "aria-haspopup": {
+    "key": "aria-haspopup",
+    "type": "token",
+    "values": [
+      "false",
+      "true",
+      "menu",
+      "listbox",
+      "tree",
+      "grid",
+      "dialog"
+    ]
+  },
+  "aria-hidden": {
+    "key": "aria-hidden",
+    "type": "boolean",
+    "allow_undefined": true
+  },
+  "aria-invalid": {
+    "key": "aria-invalid",
+    "type": "token",
+    "values": [
+      "grammar",
+      "false",
+      "spelling",
+      "true"
+    ]
+  },
+  "aria-keyshortcuts": {
+    "key": "aria-keyshortcuts",
+    "type": "string"
+  },
+  "aria-label": {
+    "key": "aria-label",
+    "type": "string"
+  },
+  "aria-labelledby": {
+    "key": "aria-labelledby",
+    "type": "idlist"
+  },
+  "aria-level": {
+    "key": "aria-level",
+    "type": "integer"
+  },
+  "aria-live": {
+    "key": "aria-live",
+    "type": "token",
+    "values": [
+      "off",
+      "polite",
+      "assertive"
+    ]
+  },
+  "aria-modal": {
+    "key": "aria-modal",
+    "type": "boolean"
+  },
+  "aria-multiline": {
+    "key": "aria-multiline",
+    "type": "boolean"
+  },
+  "aria-multiselectable": {
+    "key": "aria-multiselectable",
+    "type": "boolean"
+  },
+  "aria-orientation": {
+    "key": "aria-orientation",
+    "type": "token",
+    "values": [
+      "horizontal",
+      "vertical",
+      "undefined"
+    ]
+  },
+  "aria-owns": {
+    "key": "aria-owns",
+    "type": "idlist"
+  },
+  "aria-placeholder": {
+    "key": "aria-placeholder",
+    "type": "string"
+  },
+  "aria-posinset": {
+    "key": "aria-posinset",
+    "type": "integer"
+  },
+  "aria-pressed": {
+    "key": "aria-pressed",
+    "type": "tristate"
+  },
+  "aria-readonly": {
+    "key": "aria-readonly",
+    "type": "boolean"
+  },
+  "aria-relevant": {
+    "key": "aria-relevant",
+    "type": "tokenlist",
+    "values": [
+      "additions",
+      "removals",
+      "text",
+      "all"
+    ]
+  },
+  "aria-required": {
+    "key": "aria-required",
+    "type": "boolean"
+  },
+  "aria-roledescription": {
+    "key": "aria-roledescription",
+    "type": "string"
+  },
+  "aria-rowcount": {
+    "key": "aria-rowcount",
+    "type": "integer"
+  },
+  "aria-rowindex": {
+    "key": "aria-rowindex",
+    "type": "integer"
+  },
+  "aria-rowspan": {
+    "key": "aria-rowspan",
+    "type": "integer"
+  },
+  "aria-selected": {
+    "key": "aria-selected",
+    "type": "boolean",
+    "allow_undefined": true
+  },
+  "aria-setsize": {
+    "key": "aria-setsize",
+    "type": "integer"
+  },
+  "aria-sort": {
+    "key": "aria-sort",
+    "type": "token",
+    "values": [
+      "ascending",
+      "descending",
+      "none",
+      "other"
+    ]
+  },
+  "aria-valuemax": {
+    "key": "aria-valuemax",
+    "type": "number"
+  },
+  "aria-valuemin": {
+    "key": "aria-valuemin",
+    "type": "number"
+  },
+  "aria-valuenow": {
+    "key": "aria-valuenow",
+    "type": "number"
+  },
+  "aria-valuetext": {
+    "key": "aria-valuetext",
+    "type": "string"
+  }
+}

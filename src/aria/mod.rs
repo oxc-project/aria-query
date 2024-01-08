@@ -2,6 +2,7 @@ use crate::definition::{
     ARIAProperty, ARIAPropertyDefinition, ARIAPropertyDefinitionType, ARIAState,
 };
 use phf::{phf_ordered_map, OrderedMap};
+use std::collections::HashMap;
 
 static ARIA_PROPS_MAP: OrderedMap<&'static str, &'static ARIAPropertyDefinition> = phf_ordered_map! {
     "aria-activedescendant" => &ARIAPropertyDefinition {
@@ -305,3 +306,79 @@ static ARIA_PROPS_MAP: OrderedMap<&'static str, &'static ARIAPropertyDefinition>
         allow_undefined: None,
     },
 };
+
+pub fn entries() -> HashMap<&'static str, &'static ARIAPropertyDefinition> {
+    ARIA_PROPS_MAP.entries().map(|(k, v)| (*k, *v)).collect()
+}
+
+pub fn for_each(mut callback: impl FnMut(&'static str, &'static ARIAPropertyDefinition)) {
+    ARIA_PROPS_MAP.into_iter().for_each(|(k, v)| callback(k, v));
+}
+
+pub fn get(name: &str) -> Option<&'static ARIAPropertyDefinition> {
+    match ARIA_PROPS_MAP.get(name) {
+        Some(v) => Some(v),
+        None => None,
+    }
+}
+
+pub fn has(name: &str) -> bool {
+    ARIA_PROPS_MAP.contains_key(name)
+}
+
+pub fn keys() -> impl Iterator<Item = &'static str> {
+    ARIA_PROPS_MAP.keys().copied()
+}
+
+pub fn values() -> impl Iterator<Item = &'static ARIAPropertyDefinition> {
+    ARIA_PROPS_MAP.values().copied()
+}
+
+#[cfg(test)]
+mod test {
+    use crate::aria;
+    use insta::{assert_json_snapshot, Settings};
+
+    #[test]
+    fn snapshot_for_entries() {
+        let aria_entries = aria::entries();
+
+        let mut settings = Settings::clone_current();
+        settings.set_sort_maps(true);
+        settings.bind(|| {
+            assert_json_snapshot!(aria_entries);
+        });
+    }
+
+    #[test]
+    fn test_for_each() {
+        let mut el_count = 0;
+        aria::for_each(|_, _| el_count += 1);
+        assert_eq!(el_count, 50);
+        let mut elements_list = Vec::new();
+        aria::for_each(|k, _| {
+            elements_list.push(k);
+        });
+        assert_eq!(elements_list, aria::keys().collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_get() {
+        assert!(aria::get("aria-activedescendant").is_some());
+        assert!(aria::get("aria-unknown").is_none());
+    }
+
+    #[test]
+    fn test_has() {
+        assert!(aria::has("aria-activedescendant"));
+        assert!(!aria::has("aria-unknown"));
+    }
+
+    #[test]
+    fn test_keys() {
+        let keys = aria::keys().collect::<Vec<_>>();
+        for (_, key) in keys.iter().enumerate() {
+            assert!(aria::entries().contains_key(key));
+        }
+    }
+}
