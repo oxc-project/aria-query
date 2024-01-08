@@ -1,3 +1,5 @@
+use serde::{ser::SerializeStruct, Serialize};
+
 pub enum ARIAAbstractRole {
     Command,
     Composite,
@@ -262,9 +264,107 @@ pub enum ARIAPropertyDefinitionType {
 }
 
 pub struct ARIAPropertyDefinition {
+    pub key: ARIAProperty,
     pub type_: ARIAPropertyDefinitionType,
-    pub values: Option<Vec<String>>,
+    pub values: Option<&'static [&'static str]>,
     pub allow_undefined: Option<bool>,
+}
+
+impl Serialize for ARIAPropertyDefinition {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut state = serializer.serialize_struct("ARIAProperty", 4)?;
+        state.serialize_field(
+            "key",
+            match self.key {
+                ARIAProperty::AriaActivedescendant => "aria-activedescendant",
+                ARIAProperty::AriaAtomic => "aria-atomic",
+                ARIAProperty::AriaAutocomplete => "aria-autocomplete",
+                ARIAProperty::AriaBraillelabel => "aria-braillelabel",
+                ARIAProperty::AriaBrailleroledescription => "aria-brailleroledescription",
+                ARIAProperty::AriaColcount => "aria-colcount",
+                ARIAProperty::AriaColindex => "aria-colindex",
+                ARIAProperty::AriaColspan => "aria-colspan",
+                ARIAProperty::AriaControls => "aria-controls",
+                ARIAProperty::AriaCurrent => "aria-current",
+                ARIAProperty::AriaDescribedby => "aria-describedby",
+                ARIAProperty::AriaDescription => "aria-description",
+                ARIAProperty::AriaDetails => "aria-details",
+                ARIAProperty::AriaDropeffect => "aria-dropeffect",
+                ARIAProperty::AriaErrormessage => "aria-errormessage",
+                ARIAProperty::AriaFlowto => "aria-flowto",
+                ARIAProperty::AriaHaspopup => "aria-haspopup",
+                ARIAProperty::AriaKeyshortcuts => "aria-keyshortcuts",
+                ARIAProperty::AriaLabel => "aria-label",
+                ARIAProperty::AriaLabelledby => "aria-labelledby",
+                ARIAProperty::AriaLevel => "aria-level",
+                ARIAProperty::AriaLive => "aria-live",
+                ARIAProperty::AriaModal => "aria-modal",
+                ARIAProperty::AriaMultiline => "aria-multiline",
+                ARIAProperty::AriaMultiselectable => "aria-multiselectable",
+                ARIAProperty::AriaOrientation => "aria-orientation",
+                ARIAProperty::AriaOwns => "aria-owns",
+                ARIAProperty::AriaPlaceholder => "aria-placeholder",
+                ARIAProperty::AriaPosinset => "aria-posinset",
+                ARIAProperty::AriaReadonly => "aria-readonly",
+                ARIAProperty::AriaRelevant => "aria-relevant",
+                ARIAProperty::AriaRequired => "aria-required",
+                ARIAProperty::AriaRoledescription => "aria-roledescription",
+                ARIAProperty::AriaRowcount => "aria-rowcount",
+                ARIAProperty::AriaRowindex => "aria-rowindex",
+                ARIAProperty::AriaRowspan => "aria-rowspan",
+                ARIAProperty::AriaSetsize => "aria-setsize",
+                ARIAProperty::AriaSort => "aria-sort",
+                ARIAProperty::AriaValuemax => "aria-valuemax",
+                ARIAProperty::AriaValuemin => "aria-valuemin",
+                ARIAProperty::AriaValuenow => "aria-valuenow",
+                ARIAProperty::AriaValuetext => "aria-valuetext",
+                ARIAProperty::ARIAState(ARIAState::AriaBusy) => "aria-busy",
+                ARIAProperty::ARIAState(ARIAState::AriaChecked) => "aria-checked",
+                ARIAProperty::ARIAState(ARIAState::AriaDisabled) => "aria-disabled",
+                ARIAProperty::ARIAState(ARIAState::AriaExpanded) => "aria-expanded",
+                ARIAProperty::ARIAState(ARIAState::AriaGrabbed) => "aria-grabbed",
+                ARIAProperty::ARIAState(ARIAState::AriaHidden) => "aria-hidden",
+                ARIAProperty::ARIAState(ARIAState::AriaInvalid) => "aria-invalid",
+                ARIAProperty::ARIAState(ARIAState::AriaPressed) => "aria-pressed",
+                ARIAProperty::ARIAState(ARIAState::AriaSelected) => "aria-selected",
+            },
+        )?;
+        state.serialize_field(
+            "type",
+            match self.type_ {
+                ARIAPropertyDefinitionType::String => "string",
+                ARIAPropertyDefinitionType::Id => "id",
+                ARIAPropertyDefinitionType::IdList => "idlist",
+                ARIAPropertyDefinitionType::Integer => "integer",
+                ARIAPropertyDefinitionType::Number => "number",
+                ARIAPropertyDefinitionType::Boolean => "boolean",
+                ARIAPropertyDefinitionType::Token => "token",
+                ARIAPropertyDefinitionType::TokenList => "tokenlist",
+                ARIAPropertyDefinitionType::Tristate => "tristate",
+            },
+        )?;
+        match &self.values {
+            Some(values) => {
+                state.serialize_field("values", &values)?;
+            }
+            None => {
+                state.skip_field("values")?;
+            }
+        };
+        match self.allow_undefined {
+            Some(allow_undefined) => {
+                state.serialize_field("allow_undefined", &allow_undefined)?;
+            }
+            None => {
+                state.skip_field("allow_undefined")?;
+            }
+        };
+
+        state.end()
+    }
 }
 
 pub enum ARIAPropertyCurrent {
