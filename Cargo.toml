@@ -17,4 +17,4 @@ phf = { version = "0.11", features = ["macros"] }
 
 [dev-dependencies]
 insta = { version = "1.34.0", features = ["json"] }
-serde = "1.0.195"
+serde = { version = "1.0.195", features = ["derive"] }
