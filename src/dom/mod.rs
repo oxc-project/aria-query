@@ -573,6 +573,11 @@ pub fn get(name: &str) -> Option<bool> {
     DOM_ELEMENTS.get(name).copied()
 }
 
+pub fn get_with_enum_dom_elements(dom_element: DOMElements) -> Option<bool> {
+    let raw_dom_element = map_enum_dom_element_to_raw(&dom_element);
+    DOM_ELEMENTS.get(raw_dom_element).copied()
+}
+
 pub fn has(name: &str) -> bool {
     DOM_ELEMENTS.contains_key(name)
 }
@@ -660,6 +665,18 @@ mod test {
         assert_eq!(dom::get("a"), Some(false));
         assert_eq!(dom::get("html"), Some(true));
         assert_eq!(dom::get("unknown"), None);
+    }
+
+    #[test]
+    fn test_get_with_enum_dom_elements() {
+        assert_eq!(
+            dom::get_with_enum_dom_elements(dom::DOMElements::A),
+            Some(false)
+        );
+        assert_eq!(
+            dom::get_with_enum_dom_elements(dom::DOMElements::Html),
+            Some(true)
+        );
     }
 
     #[test]
