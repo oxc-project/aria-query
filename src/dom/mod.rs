@@ -3,7 +3,7 @@ use phf::{phf_ordered_map, OrderedMap};
 use serde::Serialize;
 use std::collections::HashMap;
 
-#[derive(PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub enum DOMElements {
     A,
     Abbr,
@@ -563,6 +563,12 @@ pub fn for_each(mut callback: impl FnMut(&'static str, bool)) {
     DOM_ELEMENTS.into_iter().for_each(|(k, v)| callback(k, *v));
 }
 
+pub fn for_each_with_enum_dom_elements(mut callback: impl FnMut(DOMElements, bool)) {
+    DOM_ELEMENTS
+        .into_iter()
+        .for_each(|(k, v)| callback(map_raw_dom_element_to_enum(k), *v));
+}
+
 pub fn get(name: &str) -> Option<bool> {
     DOM_ELEMENTS.get(name).copied()
 }
@@ -623,6 +629,30 @@ mod test {
             elements_list.push(k);
         });
         assert_eq!(elements_list, dom::keys().collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_for_each_with_enum_dom_elements() {
+        let mut el_count = 0;
+        dom::for_each_with_enum_dom_elements(|_, _| el_count += 1);
+        assert_eq!(el_count, 129);
+        let mut reserved_count = 0;
+        dom::for_each_with_enum_dom_elements(|_, v| {
+            if v {
+                reserved_count += 1
+            }
+        });
+        assert_eq!(reserved_count, 16);
+        let mut elements_list = Vec::new();
+        dom::for_each_with_enum_dom_elements(|k, _| {
+            elements_list.push(k);
+        });
+        assert_eq!(
+            elements_list,
+            dom::keys()
+                .map(dom::map_raw_dom_element_to_enum)
+                .collect::<Vec<_>>()
+        );
     }
 
     #[test]
