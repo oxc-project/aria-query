@@ -1,0 +1,83 @@
+---
+source: src/role/mod.rs
+expression: roles_entries
+---
+{
+  "command": {
+    "name_from": [
+      "Author"
+    ]
+  },
+  "composite": {
+    "name_from": [
+      "Author"
+    ]
+  },
+  "input": {
+    "name_from": [
+      "Author"
+    ],
+    "related_concepts": [
+      {
+        "module": "XForms",
+        "concept": {}
+      }
+    ]
+  },
+  "landmark": {
+    "name_from": [
+      "Author"
+    ]
+  },
+  "range": {
+    "name_from": [
+      "Author"
+    ]
+  },
+  "roletype": {
+    "related_concepts": [
+      {
+        "module": "XHTML",
+        "concept": {}
+      },
+      {
+        "module": "Dublin Core",
+        "concept": {}
+      }
+    ]
+  },
+  "section": {
+    "related_concepts": [
+      {
+        "module": "DTB",
+        "concept": {}
+      },
+      {
+        "module": "DTB",
+        "concept": {}
+      },
+      {
+        "module": "SMIL",
+        "concept": {}
+      }
+    ]
+  },
+  "sectionhead": {
+    "name_from": [
+      "Author",
+      "Contents"
+    ]
+  },
+  "select": {
+    "name_from": [
+      "Author"
+    ]
+  },
+  "structure": {},
+  "widget": {},
+  "window": {
+    "name_from": [
+      "Author"
+    ]
+  }
+}
