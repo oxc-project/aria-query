@@ -9,6 +9,10 @@ pub fn entries() -> HashMap<&'static str, &'static ARIARoleDefinition> {
         .collect()
 }
 
+pub fn keys() -> impl Iterator<Item = &'static str> {
+    aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
+}
+
 #[cfg(test)]
 mod test {
     use crate::role;
@@ -23,5 +27,13 @@ mod test {
         settings.bind(|| {
             assert_json_snapshot!(roles_entries);
         });
+    }
+
+    #[test]
+    fn test_keys() {
+        let keys = role::keys().collect::<Vec<_>>();
+        for (_, key) in keys.iter().enumerate() {
+            assert!(role::entries().contains_key(key));
+        }
     }
 }
