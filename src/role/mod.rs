@@ -9,6 +9,12 @@ pub fn entries() -> HashMap<&'static str, &'static ARIARoleDefinition> {
         .collect()
 }
 
+pub fn for_each(mut callback: impl FnMut(&'static str, &'static ARIARoleDefinition)) {
+    aria_abstract_roles::ARIA_ABSTRACT_ROLES
+        .into_iter()
+        .for_each(|(k, v)| callback(k, v));
+}
+
 pub fn keys() -> impl Iterator<Item = &'static str> {
     aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
 }
@@ -32,6 +38,18 @@ mod test {
         settings.bind(|| {
             assert_json_snapshot!(roles_entries);
         });
+    }
+
+    #[test]
+    fn test_for_each() {
+        let mut el_count = 0;
+        role::for_each(|_, _| el_count += 1);
+        assert_eq!(el_count, 12);
+        let mut elements_list = Vec::new();
+        role::for_each(|k, _| {
+            elements_list.push(k);
+        });
+        assert_eq!(elements_list, role::keys().collect::<Vec<_>>());
     }
 
     #[test]
