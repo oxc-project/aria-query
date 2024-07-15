@@ -13,8 +13,13 @@ pub fn keys() -> impl Iterator<Item = &'static str> {
     aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
 }
 
+pub fn values() -> impl Iterator<Item = &'static ARIARoleDefinition> {
+    aria_abstract_roles::ARIA_ABSTRACT_ROLES.values().copied()
+}
+
 #[cfg(test)]
 mod test {
+    use crate::definition::ARIARoleDefinition;
     use crate::role;
     use insta::{assert_json_snapshot, Settings};
 
@@ -35,5 +40,16 @@ mod test {
         for (_, key) in keys.iter().enumerate() {
             assert!(role::entries().contains_key(key));
         }
+    }
+
+    #[test]
+    fn snapshot_values() {
+        let roles_values = role::values();
+        let roles_values = roles_values.collect::<Vec<&'static ARIARoleDefinition>>();
+        let mut settings = Settings::clone_current();
+        settings.set_sort_maps(true);
+        settings.bind(|| {
+            assert_json_snapshot!(roles_values);
+        });
     }
 }
