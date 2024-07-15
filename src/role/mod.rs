@@ -22,6 +22,10 @@ pub fn get(name: &str) -> Option<&'static ARIARoleDefinition> {
     }
 }
 
+pub fn has(name: &str) -> bool {
+    aria_abstract_roles::ARIA_ABSTRACT_ROLES.contains_key(name)
+}
+
 pub fn keys() -> impl Iterator<Item = &'static str> {
     aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
 }
@@ -63,6 +67,12 @@ mod test {
     fn test_get() {
         assert!(role::get("command").is_some());
         assert!(role::get("unknown").is_none());
+    }
+
+    #[test]
+    fn test_has() {
+        assert!(role::has("command"));
+        assert!(!role::has("unknown"));
     }
 
     #[test]
