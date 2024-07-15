@@ -1,0 +1,83 @@
+---
+source: src/role/mod.rs
+expression: roles_values
+---
+[
+  {
+    "name_from": [
+      "Author"
+    ]
+  },
+  {
+    "name_from": [
+      "Author"
+    ]
+  },
+  {
+    "name_from": [
+      "Author"
+    ],
+    "related_concepts": [
+      {
+        "module": "XForms",
+        "concept": {}
+      }
+    ]
+  },
+  {
+    "name_from": [
+      "Author"
+    ]
+  },
+  {
+    "name_from": [
+      "Author"
+    ]
+  },
+  {
+    "related_concepts": [
+      {
+        "module": "XHTML",
+        "concept": {}
+      },
+      {
+        "module": "Dublin Core",
+        "concept": {}
+      }
+    ]
+  },
+  {
+    "related_concepts": [
+      {
+        "module": "DTB",
+        "concept": {}
+      },
+      {
+        "module": "DTB",
+        "concept": {}
+      },
+      {
+        "module": "SMIL",
+        "concept": {}
+      }
+    ]
+  },
+  {
+    "name_from": [
+      "Author",
+      "Contents"
+    ]
+  },
+  {
+    "name_from": [
+      "Author"
+    ]
+  },
+  {},
+  {},
+  {
+    "name_from": [
+      "Author"
+    ]
+  }
+]
