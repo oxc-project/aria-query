@@ -1,6 +1,8 @@
+use phf::OrderedMap;
 #[cfg(test)]
 use serde::{ser::SerializeStruct, Serialize};
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAAbstractRole {
     Command,
     Composite,
@@ -16,6 +18,7 @@ pub enum ARIAAbstractRole {
     Window,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAWidgetRole {
     Button,
     CheckBox,
@@ -38,6 +41,7 @@ pub enum ARIAWidgetRole {
     TreeItem,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIACompositeWidgetRole {
     ComboBox,
     Grid,
@@ -50,6 +54,7 @@ pub enum ARIACompositeWidgetRole {
     TreeGrid,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIADocumentStructureRole {
     Application,
     Article,
@@ -92,6 +97,7 @@ pub enum ARIADocumentStructureRole {
     ToolTip,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIALandmarkRole {
     Banner,
     Complementary,
@@ -103,6 +109,7 @@ pub enum ARIALandmarkRole {
     Search,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIALiveRegionRole {
     Alert,
     Log,
@@ -111,16 +118,19 @@ pub enum ARIALiveRegionRole {
     Timer,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAWindowRole {
     AlertDialog,
     Dialog,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAUncategorizedRole {
     Code,
 }
 
 // please define enum equal to the above flow type
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIADPubRole {
     DocAbstract,
     DocAcknowledgments,
@@ -163,12 +173,14 @@ pub enum ARIADPubRole {
     DocToc,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAGraphicsRole {
     GraphicsDocument,
     GraphicsObject,
     GraphicsSymbol,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIARole {
     ARIAWidgetRole(ARIAWidgetRole),
     ARIACompositeWidgetRole(ARIACompositeWidgetRole),
@@ -181,6 +193,7 @@ pub enum ARIARole {
     ARIAGraphicsRole(ARIAGraphicsRole),
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIARoleDefinitionKey {
     ARIAAbstractRole(ARIAAbstractRole),
     ARIARole(ARIARole),
@@ -188,12 +201,14 @@ pub enum ARIARoleDefinitionKey {
     ARIAGraphicsRole(ARIAGraphicsRole),
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIANameFromSources {
     Author,
     Contents,
     Prohibited,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAState {
     AriaBusy,
     AriaChecked,
@@ -206,6 +221,7 @@ pub enum ARIAState {
     AriaSelected,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAProperty {
     AriaActivedescendant,
     AriaAtomic,
@@ -369,6 +385,7 @@ impl Serialize for ARIAPropertyDefinition {
     }
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub enum ARIAPropertyCurrent {
     Page,
     Step,
@@ -381,6 +398,7 @@ pub enum ARIAPropertyCurrent {
 
 // These constraints are drawn from the mapping between ARIA and HTML:
 // https://www.w3.org/TR/html-aria
+#[cfg_attr(test, derive(Serialize))]
 pub struct ARIARoleRelationConceptAttributeConstraints {
     // The attribute does not exist on the node: <a>
     pub undefined: bool,
@@ -389,6 +407,7 @@ pub struct ARIARoleRelationConceptAttributeConstraints {
     pub gt1: bool,
 }
 
+#[cfg_attr(test, derive(Serialize))]
 pub struct ARIARoleRelationConceptAttribute {
     pub name: String,
     pub value: Option<String>,
@@ -397,6 +416,7 @@ pub struct ARIARoleRelationConceptAttribute {
 
 // These constraints are drawn from the mapping between ARIA and HTML:
 // https://www.w3.org/TR/html-aria
+#[cfg_attr(test, derive(Serialize))]
 pub struct ARIARoleRelationConceptConstraints {
     pub scoped_to_the_body_element: bool,
     pub scoped_to_the_main_element: bool,
@@ -421,96 +441,122 @@ pub struct ARIARoleRelationConceptConstraints {
 ** and ARIA to name a few.
 **/
 pub struct ARIARoleRelationConcept {
-    pub name: String,
+    pub name: &'static str,
     pub attributes: Option<Vec<ARIARoleRelationConceptAttribute>>,
     pub constraints: Option<ARIARoleRelationConceptConstraints>,
 }
 
+#[cfg(test)]
+impl Serialize for ARIARoleRelationConcept {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut state = serializer.serialize_struct("ARIARoleRelation", 4)?;
+
+        match &self.attributes {
+            Some(values) => {
+                state.serialize_field("attributes", &values)?;
+            }
+            None => {
+                state.skip_field("attributes")?;
+            }
+        };
+
+        match &self.constraints {
+            Some(values) => {
+                state.serialize_field("constraints", &values)?;
+            }
+            None => {
+                state.skip_field("constraints")?;
+            }
+        };
+
+        state.end()
+    }
+}
+
+#[cfg_attr(test, derive(Serialize))]
 pub struct ARIARoleRelation {
-    pub module: Option<String>,
+    pub module: Option<&'static str>,
     pub concept: Option<ARIARoleRelationConcept>,
 }
+
+pub type ARIAProps = OrderedMap<&'static str, &'static Option<ARIAPropertyCurrent>>;
 
 pub struct ARIARoleDefinition {
     /* Abstract roles may not be used in HTML. */
     pub is_abstract: bool,
     pub accessible_name_required: bool,
     /* The concepts in related domains that inform behavior mappings. */
-    pub base_concepts: Option<Vec<ARIARoleRelation>>,
+    pub base_concepts: Option<&'static [&'static ARIARoleRelation]>,
     /* Child presentational roles strip child nodes of roles and flatten the content to text. */
     pub children_presentational: bool,
-    pub name_from: Option<Vec<ARIANameFromSources>>,
+    pub name_from: Option<&'static [&'static ARIANameFromSources]>,
     /* aria-* properties and states disallowed on this role. */
-    pub prohibited_props: Option<Vec<ARIAPropertyMap>>,
+    pub prohibited_props: Option<&'static [&'static ARIAProperty]>,
     /* aria-* properties and states allowed on this role. */
-    pub props: Option<Vec<ARIAPropertyMap>>,
+    pub props: Option<&'static ARIAProps>,
     /* The concepts in related domains that inform behavior mappings. */
-    pub related_concepts: Option<Vec<ARIARoleRelation>>,
-    pub require_context_role: Option<Vec<ARIARole>>,
-    pub required_context_role: Option<Vec<ARIARole>>,
-    pub required_owned_elements: Option<Vec<Vec<String>>>,
+    pub related_concepts: Option<&'static [ARIARoleRelation]>,
+    pub require_context_role: Option<&'static [&'static ARIARole]>,
+    pub required_context_role: Option<&'static [&'static ARIARole]>,
+    pub required_owned_elements: Option<&'static [&'static [&'static ARIARole]]>,
     /* aria-* properties and states required on this role. */
-    pub required_props: Option<Vec<ARIAPropertyMap>>,
+    pub required_props: Option<&'static ARIAProps>,
     /* An array or super class "stacks." Each stack contains a LIFO list of
      ** strings correspond to a super class in the inheritance chain of this
      ** role. Roles may have more than one inheritance chain, which is why
      ** this property is an array of arrays and not a single array. */
-    pub super_class: Option<Vec<Vec<ARIARoleDefinitionKey>>>,
+    pub super_class: Option<&'static [&'static [&'static ARIARoleDefinitionKey]]>,
 }
 
-pub type RoleDefinitionTuple = (ARIARoleDefinitionKey, ARIARoleDefinition);
-pub type RoleDefinitions = Vec<RoleDefinitionTuple>;
+#[cfg(test)]
+impl Serialize for ARIARoleDefinition {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut state = serializer.serialize_struct("ARIARoleDefinition", 4)?;
 
-pub struct ARIAPropertyMap {
-    pub aria_activedescendant: Option<String>,
-    pub aria_atomic: Option<String>,
-    pub aria_autocomplete: Option<String>,
-    pub aria_braillelabel: Option<String>,
-    pub aria_brailleroledescription: Option<String>,
-    pub aria_busy: Option<String>,
-    pub aria_checked: Option<String>,
-    pub aria_colcount: Option<String>,
-    pub aria_colindex: Option<String>,
-    pub aria_colspan: Option<String>,
-    pub aria_controls: Option<String>,
-    pub aria_current: Option<ARIAPropertyCurrent>,
-    pub aria_describedby: Option<String>,
-    pub aria_description: Option<String>,
-    pub aria_details: Option<String>,
-    pub aria_disabled: Option<String>,
-    pub aria_dropeffect: Option<String>,
-    pub aria_errormessage: Option<String>,
-    pub aria_expanded: Option<String>,
-    pub aria_flowto: Option<String>,
-    pub aria_grabbed: Option<String>,
-    pub aria_haspopup: Option<String>,
-    pub aria_hidden: Option<String>,
-    pub aria_invalid: Option<String>,
-    pub aria_keyshortcuts: Option<String>,
-    pub aria_label: Option<String>,
-    pub aria_labelledby: Option<String>,
-    pub aria_level: Option<String>,
-    pub aria_live: Option<String>,
-    pub aria_modal: Option<String>,
-    pub aria_multiline: Option<String>,
-    pub aria_multiselectable: Option<String>,
-    pub aria_orientation: Option<String>,
-    pub aria_owns: Option<String>,
-    pub aria_placeholder: Option<String>,
-    pub aria_posinset: Option<String>,
-    pub aria_pressed: Option<String>,
-    pub aria_readonly: Option<String>,
-    pub aria_relevant: Option<String>,
-    pub aria_required: Option<String>,
-    pub aria_roledescription: Option<String>,
-    pub aria_rowcount: Option<String>,
-    pub aria_rowindex: Option<String>,
-    pub aria_rowspan: Option<String>,
-    pub aria_selected: Option<String>,
-    pub aria_setsize: Option<String>,
-    pub aria_sort: Option<String>,
-    pub aria_valuemax: Option<String>,
-    pub aria_valuemin: Option<String>,
-    pub aria_valuenow: Option<String>,
-    pub aria_valuetext: Option<String>,
+        match &self.base_concepts {
+            Some(values) => {
+                state.serialize_field("base_concepts", &values)?;
+            }
+            None => {
+                state.skip_field("base_concepts")?;
+            }
+        };
+
+        match &self.name_from {
+            Some(values) => {
+                state.serialize_field("name_from", &values)?;
+            }
+            None => {
+                state.skip_field("name_from")?;
+            }
+        };
+
+        match &self.prohibited_props {
+            Some(values) => {
+                state.serialize_field("prohibited_props", &values)?;
+            }
+            None => {
+                state.skip_field("prohibited_props")?;
+            }
+        };
+
+        match &self.related_concepts {
+            Some(values) => {
+                state.serialize_field("related_concepts", &values)?;
+            }
+            None => {
+                state.skip_field("related_concepts")?;
+            }
+        };
+
+        state.end()
+    }
 }
+
+pub type RoleDefinitions = OrderedMap<&'static str, &'static ARIARoleDefinition>;
