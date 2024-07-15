@@ -15,6 +15,13 @@ pub fn for_each(mut callback: impl FnMut(&'static str, &'static ARIARoleDefiniti
         .for_each(|(k, v)| callback(k, v));
 }
 
+pub fn get(name: &str) -> Option<&'static ARIARoleDefinition> {
+    match aria_abstract_roles::ARIA_ABSTRACT_ROLES.get(name) {
+        Some(v) => Some(v),
+        None => None,
+    }
+}
+
 pub fn keys() -> impl Iterator<Item = &'static str> {
     aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
 }
@@ -50,6 +57,12 @@ mod test {
             elements_list.push(k);
         });
         assert_eq!(elements_list, role::keys().collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn test_get() {
+        assert!(role::get("command").is_some());
+        assert!(role::get("unknown").is_none());
     }
 
     #[test]
