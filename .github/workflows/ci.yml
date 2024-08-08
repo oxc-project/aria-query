@@ -8,22 +8,21 @@ on:
       - '**/*.md'
       - '**/*.yml'
       - '!.github/workflows/ci.yml'
-      - '!.github/actions/setup_rust_toolchain/action.yml'
   push:
     branches:
       - main
+      - "renovate/**"
     paths-ignore:
       - '**/*.md'
       - '**/*.yml'
       - '!.github/workflows/ci.yml'
-      - '!.github/actions/setup_rust_toolchain/action.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: ${{ github.ref_name != 'main' }}
 
 jobs:
-  cache: # Warm cache factory for all other CI jobs
+  cache:
     name: Check and Build
     strategy:
       fail-fast: false
@@ -34,33 +33,23 @@ jobs:
           - os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust Toolchain
-        uses: ./.github/actions/setup_rust_toolchain
+      - uses: taiki-e/checkout-action@v1
+      - uses: Boshen/setup-rust@main
         with:
           save-cache: ${{ github.ref_name == 'main' }}
-
-      - name: Cargo check
-        run: cargo ck
-
-      # Only need to build the test to create a warm cache on the main branch
-      - name: Build cache by Cargo Check and Cargo Test
-        if: ${{ github.ref_name == 'main' }}
-        run: cargo test --quiet --no-run
+      - run: cargo ck
+      - run: cargo test --no-run
+      - run: cargo test
 
   wasm:
     name: Check Wasm
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust Toolchain
-        uses: ./.github/actions/setup_rust_toolchain
+      - uses: taiki-e/checkout-action@v1
+      - uses: Boshen/setup-rust@main
         with:
-          shared-key: 'wasm'
-          # cache is saved from the website workflow
-
+          save-cache: ${{ github.ref_name == 'main' }}
+          cache-key: wasm
       - name: Check
         run: |
           rustup target add wasm32-unknown-unknown
@@ -70,8 +59,7 @@ jobs:
     name: Spell Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: taiki-e/checkout-action@v1
       - uses: crate-ci/typos@master
         with:
           files: .
@@ -80,23 +68,17 @@ jobs:
     name: Cargo Deny
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: taiki-e/checkout-action@v1
       - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
             src:
               - 'Cargo.lock'
-
       - name: Install cargo-deny
         if: steps.filter.outputs.src == 'true'
         uses: taiki-e/install-action@cargo-deny
-
-      - uses: ./.github/actions/setup_rust_toolchain
-        with:
-          restore-cache: false
-
+      - uses: Boshen/setup-rust@main
       - if: steps.filter.outputs.src == 'true'
         run: cargo deny check
 
@@ -104,83 +86,55 @@ jobs:
     name: Check Unused Dependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: taiki-e/checkout-action@v1
       - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
             src:
-              - 'Cargo.lock'
+              - '**/*.rs'
               - '**/Cargo.toml'
-
-      - name: Install cargo-machete
-        if: steps.filter.outputs.src == 'true'
-        uses: taiki-e/install-action@cargo-machete
-
-      - name: Install Rust
-        if: steps.filter.outputs.src == 'true'
-        uses: ./.github/actions/setup_rust_toolchain
+              - 'Cargo.lock'
+      - uses: Boshen/setup-rust@main
         with:
           restore-cache: false
-
-      - if: steps.filter.outputs.src == 'true'
-        run: cargo machete
+        if: steps.filter.outputs.src == 'true'
+      - uses: cargo-bins/cargo-binstall@v1.9.0
+        if: steps.filter.outputs.src == 'true'
+      - run: cargo binstall --no-confirm cargo-shear@1
+        if: steps.filter.outputs.src == 'true'
+      - run: cargo shear
+        if: steps.filter.outputs.src == 'true'
 
   format:
     name: Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: ./.github/actions/setup_rust_toolchain
+      - uses: Boshen/setup-rust@main
         with:
-          fmt: true
+          components: rustfmt
           restore-cache: false
-
       - run: cargo fmt --all -- --check
 
   lint:
     name: Clippy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: ./.github/actions/setup_rust_toolchain
+      - uses: taiki-e/checkout-action@v1
+      - uses: Boshen/setup-rust@main
         with:
-          clippy: true
-
-      - name: Run Clippy
-        run: cargo lint -- -D warnings
+          cache-key: warm
+          components: clippy
+      - run: cargo lint -- -D warnings
 
   doc:
     name: Doc
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: ./.github/actions/setup_rust_toolchain
+      - uses: taiki-e/checkout-action@v1
+      - uses: Boshen/setup-rust@main
         with:
-          docs: true
-
-      - name: Run doc
-        run: RUSTDOCFLAGS='-D warnings' cargo doc -p aria_query
-
-  test:
-    name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-          - os: ubuntu-latest
-          - os: macos-latest
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Rust
-        uses: ./.github/actions/setup_rust_toolchain
-      - run: cargo test --quiet
+          cache-key: warm
+          components: rust-docs
+      - run: RUSTDOCFLAGS='-D warnings' cargo doc -p aria_query
