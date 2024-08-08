@@ -689,7 +689,7 @@ mod test {
     #[test]
     fn test_keys() {
         let keys = dom::keys().collect::<Vec<_>>();
-        for (_, key) in keys.iter().enumerate() {
+        for key in keys {
             assert!(dom::entries().contains_key(key));
         }
     }
